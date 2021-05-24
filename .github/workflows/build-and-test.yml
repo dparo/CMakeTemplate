@@ -50,6 +50,9 @@ jobs:
       run: ctest --output-on-failure -C $BUILD_TYPE
 
 
+    - name: Install lcov
+      run: sudo apt-get install lcov
+
     - name: Generate coverage report
       working-directory: ${{runner.workspace}}/build
       shell: bash
