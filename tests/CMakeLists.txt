@@ -16,12 +16,8 @@ foreach(SRC IN LISTS TEST_SOURCES_LIST)
     target_compile_definitions("${TARGET}" PRIVATE _GNU_SOURCE)
   endif()
 
-  if(CODE_COVERAGE)
-    target_link_libraries("${TARGET}" PRIVATE coverage_config)
-  endif()
-
   add_test(
     NAME "${TARGET}" COMMAND "${TARGET}"
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
   )
-endforeach(SRC)
+endforeach()
