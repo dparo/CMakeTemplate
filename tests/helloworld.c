@@ -10,7 +10,7 @@ static void test_example(void) {
 
 int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_success);
+    RUN_TEST(test_example);
     return UNITY_END();
 }
 
