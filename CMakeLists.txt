@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(CMakeTemplate)
+option(CODE_COVERAGE "Enable coverage reporting" OFF)
+
+
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
-
 # Force colored error output from the compiler when using Ninja
 if(
   CMAKE_GENERATOR STREQUAL "Ninja" AND
@@ -20,6 +22,7 @@ endif()
 
 add_subdirectory(deps)
 add_subdirectory(src)
+
 
 
 include(CTest)
