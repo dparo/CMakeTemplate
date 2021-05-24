@@ -4,18 +4,13 @@
 #include <stdint.h>
 #include <unity.h>
 
-static void test_success(void) {
+static void test_example(void) {
     TEST_ASSERT_EQUAL(1 + 2, 3);
-}
-
-static void test_failure(void) {
-    TEST_ASSERT_EQUAL(5 + 5, 100);
 }
 
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_success);
-    RUN_TEST(test_failure);
     return UNITY_END();
 }
 
