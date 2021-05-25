@@ -1,6 +1,6 @@
 set(
   TEST_SOURCES_LIST
-  "helloworld.c"
+  "simple.c"
 )
 
 
@@ -16,6 +16,7 @@ foreach(SRC IN LISTS TEST_SOURCES_LIST)
 
   add_executable("${TARGET}" "${SRC}")
   target_link_libraries("${TARGET}" PRIVATE unity)
+  target_link_libraries("${TARGET}" PRIVATE main)
   target_include_directories("${TARGET}" PRIVATE ./ ../src)
 
   target_compile_definitions("${TARGET}" PRIVATE UNITY_INCLUDE_PRINT_FORMATTED UNITY_OUTPUT_COLOR)
