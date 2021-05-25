@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lexer.h"
-
 int main(int argc, char** argv) {
     (void)argc, (void)argv;
     printf("Hello world\n");
