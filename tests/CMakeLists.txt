@@ -3,6 +3,14 @@ set(
   "helloworld.c"
 )
 
+
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+  set(WARN_FLAGS "-Wall -Wextra -Wunused")
+  string(APPEND CMAKE_C_FLAGS " ${WARN_FLAGS}")
+  string(APPEND CMAKE_CXX_FLAGS " ${WARN_FLAGS}")
+endif()
+
+
 foreach(SRC IN LISTS TEST_SOURCES_LIST)
   get_filename_component(TARGET "${SRC}" NAME_WE)
 
