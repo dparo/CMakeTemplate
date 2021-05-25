@@ -5,4 +5,5 @@ if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
   string(APPEND CMAKE_LINKER_FLAGS " ${WARN_FLAGS}")
 endif()
 
-add_executable(clex main.c)
+add_executable(a.out main.c)
+target_include_directories(a.out PRIVATE ./)
