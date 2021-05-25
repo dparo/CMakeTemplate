@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(CMakeTemplate)
+project(CMakeTemplate VERSION 0.1.0)
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 
 
@@ -31,3 +31,8 @@ if(BUILD_TESTING)
   target_compile_definitions(unity PRIVATE UNITY_INCLUDE_PRINT_FORMATTED UNITY_OUTPUT_COLOR)
   add_subdirectory(tests)
 endif()
+
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
