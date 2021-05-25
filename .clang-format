@@ -3,6 +3,6 @@ BasedOnStyle: Chromium
 UseTab: Never
 TabWidth: 8
 IndentWidth: 4
-ColumnLimit:
-IncludeBlocks: Never
+ColumnLimit: 100
+SortIncludes: false
 ...
