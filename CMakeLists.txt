@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(CMakeTemplate VERSION 0.1.0)
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
+option(ENABLE_ADRESS_SANITIZER "Enable address sanitizer for supported compilers and DEBUG builds" ON)
 
 
 
@@ -18,6 +19,20 @@ if(
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
 endif()
 
+
+if(ENABLE_ADRESS_SANITIZER)
+  if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+    set(SANITIZE_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
+    string(APPEND CMAKE_C_FLAGS_DEBUG " ${SANITIZE_FLAGS}")
+    string(APPEND CMAKE_C_FLAGS_RELWITHDEBINFO " ${SANITIZE_FLAGS}")
+
+    string(APPEND CMAKE_CXX_FLAGS_DEBUG " ${SANITIZE_FLAGS}")
+    string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " ${SANITIZE_FLAGS}")
+
+    string(APPEND CMAKE_LINKER_FLAGS_DEBUG " ${SANITIZE_FLAGS}")
+    string(APPEND CMAKE_LINKER_FLAGS_RELWITHDEBINFO " ${SANITIZE_FLAGS}")
+  endif()
+endif()
 
 
 add_subdirectory(deps)
