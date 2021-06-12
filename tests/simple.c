@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <unity.h>
 
 #include "sum.h"
@@ -19,6 +20,18 @@ static void test_read(void) {
     fclose(f);
 }
 
+static void test_calloc_0_0(void) {
+    char* p = calloc(0, 0);
+    TEST_ASSERT(p);
+    free(p);
+}
+
+static void test_malloc_0(void) {
+    char* p = malloc(0);
+    TEST_ASSERT(p);
+    free(p);
+}
+
 static void test_sum(void) {
     for (int32_t i = -10; i < 10; i++) {
         for (int32_t j = -10; j < 10; j++) {
@@ -32,6 +45,8 @@ int main(void) {
     RUN_TEST(test_example);
     RUN_TEST(test_read);
     RUN_TEST(test_sum);
+    RUN_TEST(test_calloc_0_0);
+    RUN_TEST(test_malloc_0);
     return UNITY_END();
 }
 
