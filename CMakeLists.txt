@@ -5,6 +5,13 @@ option(CODE_COVERAGE "Enable coverage reporting" OFF)
 option(ENABLE_ADRESS_SANITIZER "Enable address sanitizer for supported compilers and DEBUG builds" ON)
 
 
+set(CMAKE_C_STANDARD "11")
+set(CMAKE_CXX_STANDARD "20")
+
+set(CXX_DISABLED_FEATURES_OPTS -fno-exceptions -fno-rtti)
+# Directory level and below compile options for C++
+add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:${CXX_DISABLED_FEATURES_OPTS}>")
+
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 # Force colored error output from the compiler when using Ninja
