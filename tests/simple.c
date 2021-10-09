@@ -8,12 +8,10 @@
 #include "sum.h"
 #include <string.h>
 
-static void test_example(void) {
-    TEST_ASSERT_EQUAL(1 + 2, 3);
-}
+static void test_example(void) { TEST_ASSERT_EQUAL(1 + 2, 3); }
 
 static void test_read(void) {
-    FILE* f = fopen("./CMakeLists.txt", "r");
+    FILE *f = fopen("./CMakeLists.txt", "r");
     char buffer[16 * 1024];
     size_t sizeRead = fread(buffer, 1, sizeof(buffer), f);
     TEST_ASSERT_GREATER_OR_EQUAL(64, sizeRead);
@@ -21,13 +19,13 @@ static void test_read(void) {
 }
 
 static void test_calloc_0_0(void) {
-    char* p = calloc(0, 0);
+    char *p = calloc(0, 0);
     TEST_ASSERT(p);
     free(p);
 }
 
 static void test_malloc_0(void) {
-    char* p = malloc(0);
+    char *p = malloc(0);
     TEST_ASSERT(p);
     free(p);
 }
