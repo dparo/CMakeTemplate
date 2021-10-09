@@ -8,7 +8,7 @@ endif()
 
 add_library(libmain sum.c)
 target_include_directories(libmain PUBLIC ./)
-target_link_libraries(libmain PUBLIC slog)
+target_link_libraries(libmain PUBLIC logc)
 
 add_executable(cptp main.c)
 target_link_libraries(cptp PRIVATE libmain)

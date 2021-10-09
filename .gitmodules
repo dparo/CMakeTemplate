@@ -4,6 +4,6 @@
 [submodule "deps/argparse"]
 	path = deps/argparse
 	url = https://github.com/cofyc/argparse
-[submodule "deps/slog"]
-	path = deps/slog
-	url = https://github.com/kala13x/slog
+[submodule "deps/log.c"]
+	path = deps/log.c
+	url = https://github.com/dparo/log.c/
