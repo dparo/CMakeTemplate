@@ -42,15 +42,13 @@ if(ENABLE_ADRESS_SANITIZER)
 endif()
 
 
+
 add_subdirectory(deps)
 add_subdirectory(src)
-
-
 
 include(CTest)
 
 if(BUILD_TESTING)
-  target_compile_definitions(unity PRIVATE UNITY_INCLUDE_PRINT_FORMATTED UNITY_OUTPUT_COLOR)
   add_subdirectory(tests)
 endif()
 

@@ -6,8 +6,11 @@ if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 endif()
 
 
-add_library(main sum.c)
-target_include_directories(main PUBLIC ./)
+add_library(libmain sum.c)
+target_include_directories(libmain PUBLIC ./)
+target_link_libraries(libmain PUBLIC slog)
 
-add_executable(a.out main.c)
-target_link_libraries(a.out PRIVATE main)
+add_executable(cptp main.c)
+target_link_libraries(cptp PRIVATE libmain)
+target_link_libraries(cptp PRIVATE argparse)
+target_link_libraries(cptp PRIVATE "${CMAKE_SOURCE_DIR}/deps/argparse")

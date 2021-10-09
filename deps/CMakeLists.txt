@@ -70,5 +70,16 @@ function(FetchArchiveConfigureAndMakeAndInstall name url)
 endfunction()
 
 
+fetchgitsubmodule("${DEPS_DIR}/slog")
+fetchgitsubmodule("${DEPS_DIR}/argparse")
 fetchgitsubmodule("${DEPS_DIR}/Unity")
-fetchgitsubmodule("${DEPS_DIR}/log.c")
+
+
+# Customize slog
+find_package(Threads REQUIRED)
+target_include_directories(slog PUBLIC "${CMAKE_SOURCE_DIR}/deps/slog/src")
+target_link_libraries(slog PUBLIC Threads::Threads)
+
+
+# Customize unity
+target_compile_definitions(unity PRIVATE UNITY_INCLUDE_PRINT_FORMATTED)
