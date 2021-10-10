@@ -74,12 +74,14 @@ fetchgitsubmodule("${DEPS_DIR}/log.c")
 fetchgitsubmodule("${DEPS_DIR}/argparse")
 fetchgitsubmodule("${DEPS_DIR}/Unity")
 
-# Customize slog
-# target_include_directories(slog PUBLIC "${CMAKE_SOURCE_DIR}/deps/slog/src")
-# target_link_libraries(slog PUBLIC Threads::Threads)
+
+# Customize logc
+add_library(logc STATIC "${CMAKE_SOURCE_DIR}/deps/log.c/src/log.c")
+target_include_directories(logc PUBLIC "${CMAKE_SOURCE_DIR}/deps/log.c/src")
+
+# Customize argparse
+target_include_directories(argparse PUBLIC "${CMAKE_SOURCE_DIR}/deps/argparse")
+
 
 # Customize unity
 target_compile_definitions(unity PRIVATE UNITY_INCLUDE_PRINT_FORMATTED)
-
-add_library(logc STATIC "${CMAKE_SOURCE_DIR}/deps/log.c/src/log.c")
-target_include_directories(logc PUBLIC "${CMAKE_SOURCE_DIR}/deps/log.c/src")
