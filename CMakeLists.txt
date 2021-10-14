@@ -48,12 +48,12 @@ ENDIF()
 
 if (CONTINOUS_INTEGRATION_ENABLED)
     add_definitions("-DCONTINOUS_INTEGRATION_ENABLED=1")
-endif
+endif()
 
 
 if (EXISTS "${CMAKE_SOURCE_DIR}/cmake")
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-endif
+endif()
 
 
 add_subdirectory(deps)
