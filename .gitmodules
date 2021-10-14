@@ -1,6 +1,6 @@
 [submodule "deps/Unity"]
 	path = deps/Unity
-	url = https://github.com/ThrowTheSwitch/Unity
+	url = https://github.com/dparo/Unity
 [submodule "deps/argparse"]
 	path = deps/argparse
 	url = https://github.com/cofyc/argparse
