@@ -45,6 +45,19 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND ENABLE_ADRESS_SANITIZER)
 endif()
 
 
+if(NOT DEFINED CONTINOUS_INTEGRATION_ENABLED)
+    set(CONTINOUS_INTEGRATION_ENABLED false)
+ENDIF()
+
+if (CONTINOUS_INTEGRATION_ENABLED)
+    add_definitions("-DCONTINOUS_INTEGRATION_ENABLED=1")
+endif()
+
+
+if (EXISTS "${CMAKE_SOURCE_DIR}/cmake")
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+endif()
+
 
 add_subdirectory(deps)
 add_subdirectory(src)
