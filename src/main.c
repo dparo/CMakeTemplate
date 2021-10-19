@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include <log.h>
+#include <argtable3.h>
 
 int main(int argc, char **argv) {
     (void)argc, (void)argv;
