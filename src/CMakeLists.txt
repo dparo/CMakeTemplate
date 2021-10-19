@@ -19,4 +19,4 @@ target_link_libraries(libmain PUBLIC logc)
 
 add_executable(cptp main.c)
 target_link_libraries(cptp PRIVATE libmain)
-target_link_libraries(cptp PRIVATE argparse)
+target_link_libraries(cptp PRIVATE argtable3)
