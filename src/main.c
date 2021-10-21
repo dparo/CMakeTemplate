@@ -132,6 +132,7 @@ exit:
 }
 
 static void print_brief_description(const char *progname) {
+    (void)progname;
     printf("My program's short brief description\n");
 }
 
