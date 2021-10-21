@@ -4,6 +4,7 @@
 extern "C" {
 #endif
 
+extern const char *BUILD_TYPE;
 extern const char *C_COMPILER_ID;
 extern const char *C_COMPILER_ABI;
 extern const char *C_COMPILER_VERSION;
