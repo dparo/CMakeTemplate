@@ -133,15 +133,14 @@ exit:
 
 static void print_brief_description(const char *progname) {
     (void)progname;
-    printf("My program's short brief description\n");
+    printf("%s: %s\n", PROJECT_NAME, PROJECT_DESCRIPTION);
 }
 
 static void print_version(void) {
-    printf("%s (revision: %s)\n", GIT_DATE, GIT_SHA1);
+    printf("%s v%s (%s, revision: %s)\n", PROJECT_NAME, PROJECT_VERSION, GIT_DATE, GIT_SHA1);
     printf("Compiled with %s v%s (%s), %s build\n", C_COMPILER_ID, C_COMPILER_VERSION,
            C_COMPILER_ABI, BUILD_TYPE);
 }
-
 static void print_use_help_for_more_information(const char *progname) {
     printf("Try '%s --help' for more information.\n", progname);
 }

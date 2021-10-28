@@ -47,10 +47,10 @@ add_library(libmain sum.c)
 target_include_directories(libmain PUBLIC ./)
 target_link_libraries(libmain PUBLIC logc)
 
-add_executable(cptp
+add_executable("${PROJECT_NAME}"
     main.c
     "${CMAKE_BINARY_DIR}/src/version.c"
     )
-target_link_libraries(cptp PRIVATE libmain)
-target_link_libraries(cptp PRIVATE argtable3)
-target_include_directories(cptp PRIVATE "${DEPS_DIR}/argtable3/src")
+target_link_libraries("${PROJECT_NAME}" PRIVATE libmain)
+target_link_libraries("${PROJECT_NAME}" PRIVATE argtable3)
+target_include_directories("${PROJECT_NAME}" PRIVATE "${DEPS_DIR}/argtable3/src")

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(CMakeTemplate VERSION 0.1.0)
+project(CMakeTemplate
+    VERSION 0.1.0
+    DESCRIPTION "<PUT YOUR CMAKE PROJECT DESCRIPTION HERE>"
+    )
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 option(BUILD_DOC "Build documentation" OFF)
 
