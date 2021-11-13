@@ -3,53 +3,60 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <unity.h>
+#include <greatest.h>
 
 #include "sum.h"
 #include <string.h>
 
-static void test_example(void) { TEST_ASSERT_EQUAL(1 + 2, 3); }
+TEST example(void) {
+    ASSERT_EQ(1 + 2, 3);
+    PASS();
+}
 
-static void test_read(void) {
+TEST calling_fread(void) {
     FILE *f = fopen("./CMakeLists.txt", "r");
     char buffer[16 * 1024];
     size_t sizeRead = fread(buffer, 1, sizeof(buffer), f);
-    TEST_ASSERT_GREATER_OR_EQUAL(64, sizeRead);
+    ASSERT_GTE(sizeRead, 64);
     fclose(f);
+    PASS();
 }
 
-static void test_calloc_0_0(void) {
+TEST calling_calloc_0_0(void) {
     char *p = calloc(0, 0);
-    TEST_ASSERT(p);
+    ASSERT(p);
     free(p);
+    PASS();
 }
 
-static void test_malloc_0(void) {
+TEST calling_malloc_0(void) {
     char *p = malloc(0);
-    TEST_ASSERT(p);
+    ASSERT(p);
     free(p);
+    PASS();
 }
 
-static void test_sum(void) {
+TEST calling_sum(void) {
     for (int32_t i = -10; i < 10; i++) {
         for (int32_t j = -10; j < 10; j++) {
-            TEST_ASSERT_EQUAL(sum(i, j), i + j);
+            ASSERT_EQ(i + j, sum(i, j));
         }
     }
+    PASS();
 }
 
-int main(void) {
-    UNITY_BEGIN();
-    RUN_TEST(test_example);
-    RUN_TEST(test_read);
-    RUN_TEST(test_sum);
-    RUN_TEST(test_calloc_0_0);
-    RUN_TEST(test_malloc_0);
-    return UNITY_END();
+/* Add all the definitions that need to be in the test runner's main file. */
+GREATEST_MAIN_DEFS();
+
+int main(int argc, char **argv) {
+    GREATEST_MAIN_BEGIN(); /* command-line arguments, initialization. */
+
+    /* If tests are run outside of a suite, a default suite is used. */
+    RUN_TEST(example);
+    RUN_TEST(calling_fread);
+    RUN_TEST(calling_calloc_0_0);
+    RUN_TEST(calling_malloc_0);
+    RUN_TEST(calling_sum);
+
+    GREATEST_MAIN_END(); /* display results */
 }
-
-/// Ran before each test
-void setUp(void) {}
-
-/// Ran after each test
-void tearDown(void) {}

@@ -80,7 +80,7 @@ if (BUILD_DOC)
 endif()
 
 fetchgitsubmodule("${DEPS_DIR}/log.c")
-fetchgitsubmodule("${DEPS_DIR}/Unity")
+fetchgitsubmodule("${DEPS_DIR}/greatest")
 fetchgitsubmodule("${DEPS_DIR}/argtable3")
 
 
@@ -97,8 +97,6 @@ endif()
 # Customize argtable3
 
 
-# Customize unity
-target_compile_definitions(unity PUBLIC UNITY_INCLUDE_PRINT_FORMATTED "UNITY_EXCLUDE_SETJMP_H=1" "UNITY_USE_FLUSH_STDOUT=1" "UNITY_INCLUDE_DOUBLE=1")
-if (MSVC)
-    target_compile_definitions(unity PUBLIC "UNITY_NORETURN=__declspec(noreturn)")
-endif()
+# Customize greatest
+add_library(greatest INTERFACE)
+target_include_directories(greatest INTERFACE "${DEPS_DIR}/greatest/")
