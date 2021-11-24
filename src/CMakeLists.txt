@@ -52,7 +52,7 @@ target_link_libraries(libmain PUBLIC logc)
 
 add_executable("${PROJECT_NAME}"
     main.c
-    "${CMAKE_BINARY_DIR}/src/version.c"
+    "${CMAKE_CURRENT_BINARY_DIR}/version.c"
     )
 target_link_libraries("${PROJECT_NAME}" PRIVATE libmain)
 target_link_libraries("${PROJECT_NAME}" PRIVATE argtable3)
