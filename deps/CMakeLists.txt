@@ -79,9 +79,15 @@ if (BUILD_DOC)
     fetchgitsubmodule("${DEPS_DIR}/doxygen-awesome-css")
 endif()
 
+fetchgitsubmodule("${DEPS_DIR}/debugbreak")
 fetchgitsubmodule("${DEPS_DIR}/log.c")
 fetchgitsubmodule("${DEPS_DIR}/greatest")
 fetchgitsubmodule("${DEPS_DIR}/argtable3")
+
+
+# Customize debubbreak
+add_library(debugbreak INTERFACE)
+target_include_directories(debugbreak INTERFACE "${DEPS_DIR}/debugbreak/")
 
 
 # Customize logc

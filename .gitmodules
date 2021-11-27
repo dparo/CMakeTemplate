@@ -13,3 +13,6 @@
 [submodule "deps/greatest"]
 	path = deps/greatest
 	url = https://github.com/silentbicycle/greatest
+[submodule "deps/debugbreak"]
+	path = deps/debugbreak
+	url = https://github.com/scottt/debugbreak

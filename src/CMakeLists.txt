@@ -48,7 +48,7 @@ doxygen_add_docs(docs
 
 add_library(libmain sum.c)
 target_include_directories(libmain PUBLIC ./)
-target_link_libraries(libmain PUBLIC logc)
+target_link_libraries(libmain PUBLIC debugbreak logc)
 
 add_executable("${PROJECT_NAME}"
     main.c
