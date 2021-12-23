@@ -16,3 +16,6 @@
 [submodule "deps/debugbreak"]
 	path = deps/debugbreak
 	url = https://github.com/scottt/debugbreak
+[submodule "deps/portable-snippets"]
+	path = deps/portable-snippets
+	url = https://github.com/nemequ/portable-snippets
