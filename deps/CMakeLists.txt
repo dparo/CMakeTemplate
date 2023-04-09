@@ -96,7 +96,7 @@ target_include_directories(logc PUBLIC "${CMAKE_SOURCE_DIR}/deps/log.c/src")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(logc PUBLIC "RXI_LOGC_DEFAULT_LEVEL=LOG_DEBUG")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Relase")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     target_compile_definitions(logc PUBLIC "RXI_LOGC_DEFAULT_LEVEL=LOG_INFO")
 endif()
 
