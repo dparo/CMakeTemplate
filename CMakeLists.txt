@@ -86,6 +86,7 @@ endif()
 
 if (EXISTS "${CMAKE_SOURCE_DIR}/cmake")
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/cmake")
 endif()
 
 

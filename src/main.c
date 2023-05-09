@@ -9,6 +9,7 @@
 #include <log.h>
 #include <argtable3.h>
 
+
 #define DEFAULT_TIME_LIMIT ((double)600.0)
 
 enum {
@@ -30,6 +31,7 @@ static int main2(const char *instance_filepath, const char *solver, double timel
 }
 
 int main(int argc, char **argv) {
+
     const char *progname = argv[0];
     FILE *log_file_handle = NULL;
 
