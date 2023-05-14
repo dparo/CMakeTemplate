@@ -13,6 +13,7 @@ a.out
 
 /tmp
 /build
+/target
 /build-vscode
 /travis_build
 /logs

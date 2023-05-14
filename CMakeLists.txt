@@ -31,9 +31,7 @@ if(NOT BUILD_DOC OR NOT DOXYGEN_FOUND)
 endif()
 
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    option(ENABLE_ADRESS_SANITIZER "Enable address sanitizer for supported compilers and DEBUG builds" ON)
-endif()
+option(ASAN_ENABLED "Enable address sanitizer for supported compilers and DEBUG builds")
 
 
 set(CMAKE_C_STANDARD "11")
@@ -58,10 +56,12 @@ if(
 endif()
 
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND ENABLE_ADRESS_SANITIZER)
+if(ASAN_ENABLED)
   if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 
-    if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
+    if(MSVC)
+        target_compile_options(<target> PUBLIC /fsanitize=address)
+    elseif (CMAKE_C_COMPILER_ID STREQUAL "Clang")
         set(SANITIZE_FLAGS "-fno-omit-frame-pointer -fsanitize=memory,address,undefined,bounds")
     elseif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
         set(SANITIZE_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined,bounds")
