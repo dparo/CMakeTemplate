@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
     set(WARN_FLAGS "-Wall -Wextra -Wunused -Wconversion")
     string(APPEND CMAKE_C_FLAGS " ${WARN_FLAGS}")

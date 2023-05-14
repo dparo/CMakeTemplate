@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Davide Paro
+//
+// SPDX-License-Identifier: MIT
+
 #include "version.h"
 
 const char *PROJECT_NAME = "@PROJECT_NAME@";

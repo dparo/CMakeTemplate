@@ -1,1 +1,5 @@
-Checks:          '-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-cplusplus-*,cppcoreguidelines-*'
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
+Checks: "-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-cplusplus-*,cppcoreguidelines-*"

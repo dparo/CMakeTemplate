@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Davide Paro
+//
+// SPDX-License-Identifier: MIT
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>

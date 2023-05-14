@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
 format:
   line_width: 80
   tab_size: 4

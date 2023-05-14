@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Davide Paro
+//
+// SPDX-License-Identifier: MIT
+
 #pragma once
 
 #if __cplusplus

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
 set(FETCHCONTENT_QUIET off CACHE BOOL "" FORCE)
 set(FETCHCONTENT_UPDATES_DISCONNECTED on CACHE BOOL "" FORCE)
 

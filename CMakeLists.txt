@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
 cmake_minimum_required(VERSION 3.14)
 
 project(CMakeTemplate

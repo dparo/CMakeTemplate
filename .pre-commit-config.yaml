@@ -1,0 +1,47 @@
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
+repos:
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v1.1.2
+    hooks:
+        - id: reuse
+          name: Add SPDX headers
+          args:
+              [
+                  annotate,
+                  --copyright=Davide Paro,
+                  --license=MIT,
+                  --skip-unrecognised,
+              ]
+          pass_filenames: true
+        - id: reuse
+          name: reuse lint
+          args: [lint]
+
+  # - repo: https://github.com/cheshirekow/cmake-format-precommit
+  #   rev: v0.6.10
+  #   hooks:
+  #   - id: cmake-format
+  #   - id: cmake-lint
+
+  - repo: local
+    hooks:
+    - id: cmake
+      name: Build project
+      description: This hook runs cmake build
+      entry: cmake --build build --config Debug
+      language: 'system'
+      types: [c, c++]
+      pass_filenames: false
+
+  - repo: local
+    hooks:
+    - id: ctest
+      name: Run ctest
+      description: This hook runs ctest
+      entry: ctest --force-new-ctest-process --output-on-failure -C build
+      language: 'system'
+      types: [c, c++]
+      pass_filenames: false
