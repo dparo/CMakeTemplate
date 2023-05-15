@@ -43,5 +43,5 @@ repos:
       description: This hook runs ctest
       entry: ctest --force-new-ctest-process --output-on-failure -C build
       language: 'system'
-      types: [c, c++]
+      types: [c, c++, cmake]
       pass_filenames: false
