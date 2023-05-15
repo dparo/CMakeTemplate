@@ -30,9 +30,7 @@ if(NOT BUILD_DOC OR NOT DOXYGEN_FOUND)
     endfunction()
 endif()
 
-
-option(ASAN_ENABLED "Enable address sanitizer for supported compilers and DEBUG builds")
-
+option(ASAN_ENABLED "Enable address sanitizer for supported compilers and DEBUG builds" OFF)
 
 set(CMAKE_C_STANDARD "11")
 set(CMAKE_CXX_STANDARD "20")
