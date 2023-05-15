@@ -85,7 +85,7 @@ endif()
 
 fetchgitsubmodule("${DEPS_DIR}/debugbreak")
 fetchgitsubmodule("${DEPS_DIR}/log.c")
-fetchgitsubmodule("${DEPS_DIR}/greatest")
+fetchgitsubmodule("${DEPS_DIR}/Unity")
 fetchgitsubmodule("${DEPS_DIR}/argtable3")
 
 

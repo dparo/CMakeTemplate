@@ -14,9 +14,6 @@
 [submodule "deps/doxygen-awesome-css"]
 	path = deps/doxygen-awesome-css
 	url = https://github.com/jothepro/doxygen-awesome-css.git
-[submodule "deps/greatest"]
-	path = deps/greatest
-	url = https://github.com/silentbicycle/greatest
 [submodule "deps/debugbreak"]
 	path = deps/debugbreak
 	url = https://github.com/scottt/debugbreak
