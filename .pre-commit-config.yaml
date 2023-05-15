@@ -31,7 +31,7 @@ repos:
     - id: cmake
       name: Build and test project with ASAN
       description: Build and test project with ASAN
-      entry: cmake --workspace --preset debug-asan
+      entry: cmake --workflow --preset debug-asan
       language: 'system'
-      types: [c, c++, cmake]
+      exclude: README.md
       pass_filenames: false
