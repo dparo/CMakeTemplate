@@ -29,19 +29,9 @@ repos:
   - repo: local
     hooks:
     - id: cmake
-      name: Build project
-      description: This hook runs cmake build
-      entry: cmake --build build --config Debug
-      language: 'system'
-      types: [c, c++]
-      pass_filenames: false
-
-  - repo: local
-    hooks:
-    - id: ctest
-      name: Run ctest
-      description: This hook runs ctest
-      entry: ctest --force-new-ctest-process --output-on-failure -C build
+      name: Build and test project with ASAN
+      description: Build and test project with ASAN
+      entry: cmake --workspace --preset debug-asan
       language: 'system'
       types: [c, c++, cmake]
       pass_filenames: false
