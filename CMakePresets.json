@@ -37,8 +37,8 @@
       "cacheVariables": {
         "ASAN": true,
         "ASAN_ENABLED": "ON",
-        "TSAN": true,
-        "TSAN_ENABLED": "ON"
+        "TSAN": false,
+        "TSAN_ENABLED": "OFF"
       }
     },
     {
