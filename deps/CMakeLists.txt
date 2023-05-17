@@ -103,10 +103,3 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     target_compile_definitions(logc PUBLIC "RXI_LOGC_DEFAULT_LEVEL=LOG_INFO")
 endif()
-
-# Customize argtable3
-
-
-# Customize greatest
-add_library(greatest INTERFACE)
-target_include_directories(greatest INTERFACE "${DEPS_DIR}/greatest/")

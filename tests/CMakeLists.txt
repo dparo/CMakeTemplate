@@ -14,7 +14,6 @@ foreach(SRC IN LISTS TEST_SOURCES_LIST)
     get_filename_component(TARGET "${SRC}" NAME_WE)
 
     add_executable("${TARGET}" "${SRC}")
-    target_link_libraries("${TARGET}" PRIVATE greatest)
     target_link_libraries("${TARGET}" PRIVATE unity)
     target_link_libraries("${TARGET}" PRIVATE libmain)
     target_link_libraries("${TARGET}" PRIVATE logc)
