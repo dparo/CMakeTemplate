@@ -20,3 +20,6 @@
 [submodule "deps/portable-snippets"]
 	path = deps/portable-snippets
 	url = https://github.com/nemequ/portable-snippets
+[submodule "deps/libuv"]
+	path = deps/libuv
+	url = https://github.com/libuv/libuv

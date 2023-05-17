@@ -23,7 +23,6 @@ include(ExternalProject)
 find_package(Git REQUIRED)
 find_program(MAKE_EXE NAMES gmake nmake make)
 
-
 # Define custom Fetch function for submodules. If classical CMAKE FetchContent_Declare is used
 # to download git submodules, it will without prompting just delete the submodule
 # directory and start a new download from fresh each time Cmake configuration is perfomed.
@@ -88,6 +87,13 @@ fetchgitsubmodule("${DEPS_DIR}/log.c")
 fetchgitsubmodule("${DEPS_DIR}/Unity")
 fetchgitsubmodule("${DEPS_DIR}/argtable3")
 
+# SET(FETCHCONTENT_SOURCE_DIR_LIBUV "${CMAKE_SOURCE_DIR}/deps/libuv")
+FetchContent_Declare(
+  libuv
+  GIT_REPOSITORY https://github.com/libuv/libuv
+  GIT_TAG        v1.44.2
+)
+FetchContent_MakeAvailable(libuv)
 
 # Customize debubbreak
 add_library(debugbreak INTERFACE)
