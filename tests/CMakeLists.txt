@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 set(TEST_SOURCES_LIST "simple.c")
+set(TEST_PYTHON_LIST "test_py.py")
 
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
     set(WARN_FLAGS "-Wall -Wextra -Wunused -Wconversion")
@@ -36,4 +37,14 @@ foreach(SRC IN LISTS TEST_SOURCES_LIST)
         NAME "${TARGET}"
         COMMAND "${TARGET}"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+endforeach()
+
+
+execute_process (COMMAND "${Python3_EXECUTABLE}" -m pip install -r "${CMAKE_SOURCE_DIR}/requirements.txt")
+
+foreach(SRC IN LISTS TEST_PYTHON_LIST)
+    add_test (NAME python-test-prova
+        COMMAND ${Python3_EXECUTABLE} -m pytest "tests/${SRC}"
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
 endforeach()

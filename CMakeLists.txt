@@ -11,6 +11,16 @@ project(CMakeTemplate
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 option(BUILD_DOC "Build documentation" OFF)
 
+IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/.venv")
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    execute_process (COMMAND "${Python3_EXECUTABLE}" -m venv "${CMAKE_SOURCE_DIR}/.venv")
+ENDIF ()
+
+SET(ENV{VIRTUAL_ENV} "${CMAKE_SOURCE_DIR}/.venv")
+set (Python3_FIND_VIRTUALENV FIRST)
+unset (Python3_EXECUTABLE)
+find_package (Python3 COMPONENTS Interpreter )
+
 if (BUILD_DOC)
     set(DOXYGEN_GENERATE_HTML ON)
     set(DOXYGEN_GENERATE_MAN OFF)

@@ -8,6 +8,13 @@
 .log
 .cache
 *.swp
+bin
+lib
+lib64
+__pycache__
+/.venv
+/venv
+/pyvenv.cfg
 
 a.out
 
