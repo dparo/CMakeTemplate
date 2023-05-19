@@ -2,7 +2,5 @@
 #
 # SPDX-License-Identifier: MIT
 
-import lib
-
-def test_prova_stuff():
-    assert lib.sum(2, 3) == 5
+def sum(a: int, b: int) -> int:
+    return a + b

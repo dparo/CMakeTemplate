@@ -19,7 +19,12 @@ ENDIF ()
 SET(ENV{VIRTUAL_ENV} "${CMAKE_SOURCE_DIR}/.venv")
 set (Python3_FIND_VIRTUALENV FIRST)
 unset (Python3_EXECUTABLE)
-find_package (Python3 COMPONENTS Interpreter )
+find_package (Python3 COMPONENTS Interpreter)
+
+
+# TODO: Understand why this set env variables do not work
+SET(ENV{PYTHONPATH} "${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH}")
+SET(ENV{MYPYPATH} "${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")
 
 if (BUILD_DOC)
     set(DOXYGEN_GENERATE_HTML ON)
