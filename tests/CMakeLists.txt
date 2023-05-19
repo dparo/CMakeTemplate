@@ -43,7 +43,9 @@ endforeach()
 execute_process (COMMAND "${Python3_EXECUTABLE}" -m pip install -r "${CMAKE_SOURCE_DIR}/requirements.txt")
 
 foreach(SRC IN LISTS TEST_PYTHON_LIST)
-    add_test (NAME python-test-prova
+    get_filename_component(TARGET "${SRC}" NAME_WE)
+
+    add_test (NAME "pytest::${TARGET}"
         COMMAND ${Python3_EXECUTABLE} -m pytest "tests/${SRC}"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
