@@ -9,15 +9,16 @@
     {
       "name": "default",
       "displayName": "Default Config",
-      "description": "Default build using Ninja MultiGenerator",
+      "description": "Default build",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/target/${presetName}",
       "environment": {},
-      "cacheVariables": {}
+      "cacheVariables": {},
+      "hidden": true
     },
     {
       "name": "debug",
-      "inherits": "default",
+      "inherits": ["default"],
       "displayName": "Debug config",
       "description": "Default debug build",
       "cacheVariables": {
@@ -31,7 +32,7 @@
     },
     {
       "name": "debug-asan",
-      "inherits": "debug",
+      "inherits": ["debug"],
       "displayName": "Debug config (ASAN)",
       "description": "Default debug build (ASAN)",
       "cacheVariables": {
@@ -43,7 +44,7 @@
     },
     {
       "name": "release",
-      "inherits": "default",
+      "inherits": ["default"],
       "displayName": "Release config",
       "description": "Default Release build",
       "cacheVariables": {
@@ -53,8 +54,8 @@
       }
     },
     {
-      "name": "windows-only",
-      "inherits": "default",
+      "name": "win-x64",
+      "inherits": ["default"],
       "displayName": "Windows-only configuration",
       "description": "This build is only available on Windows",
       "condition": {
@@ -67,26 +68,30 @@
   "buildPresets": [
     {
       "name": "default",
-      "configurePreset": "default"
+      "configurePreset": "default",
+      "hidden": true
     },
     {
       "name": "debug",
-      "configurePreset": "debug"
+      "configurePreset": "debug",
+      "inherits": ["default"]
     },
     {
       "name": "debug-asan",
-      "configurePreset": "debug-asan"
+      "configurePreset": "debug-asan",
+      "inherits": ["default"]
     },
     {
       "name": "release",
-      "configurePreset": "release"
+      "configurePreset": "release",
+      "inherits": ["default"]
     }
   ],
   "testPresets": [
     {
       "name": "default",
-      "configuration": "Debug",
-      "configurePreset": "debug",
+      "configuration": "debug",
+      "hidden": true,
       "output": {
         "outputOnFailure": true
       },
@@ -99,51 +104,35 @@
       "name": "debug",
       "configuration": "Debug",
       "configurePreset": "debug",
-      "inherits": "default"
+      "inherits": ["default"]
     },
     {
       "name": "debug-asan",
       "configuration": "Debug",
       "configurePreset": "debug-asan",
-      "inherits": "default"
+      "inherits": ["default"]
     },
     {
       "name": "release",
       "configuration": "RelWithDebInfo",
       "configurePreset": "release",
-      "inherits": "default"
+      "inherits": ["default"]
     }
   ],
   "packagePresets": [
     {
       "name": "default",
       "configurePreset": "default",
+      "hidden": true,
       "generators": ["TGZ"]
     },
     {
       "name": "release",
       "configurePreset": "release",
-      "inherits": "default"
+      "inherits": ["default"]
     }
   ],
   "workflowPresets": [
-    {
-      "name": "default",
-      "steps": [
-        {
-          "type": "configure",
-          "name": "debug-asan"
-        },
-        {
-          "type": "build",
-          "name": "debug-asan"
-        },
-        {
-          "type": "test",
-          "name": "debug-asan"
-        }
-      ]
-    },
     {
       "name": "debug",
       "steps": [
