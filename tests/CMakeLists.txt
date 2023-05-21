@@ -49,4 +49,7 @@ foreach(SRC IN LISTS TEST_PYTHON_LIST)
         COMMAND ${Python3_EXECUTABLE} -m pytest "tests/${SRC}"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
+
+    set_tests_properties("pytest::${TARGET}" PROPERTIES
+        ENVIRONMENT "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH} MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")
 endforeach()
