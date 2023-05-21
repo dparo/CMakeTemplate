@@ -1,0 +1,3 @@
+[tool.mypy]
+strict=true
+warn_return_any = true

@@ -4,5 +4,5 @@
 
 import lib
 
-def test_prova_stuff():
+def test_prova_stuff() -> None:
     assert lib.sum(2, 3) == 5

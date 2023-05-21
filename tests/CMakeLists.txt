@@ -45,8 +45,9 @@ execute_process (COMMAND "${Python3_EXECUTABLE}" -m pip install -r "${CMAKE_SOUR
 foreach(SRC IN LISTS TEST_PYTHON_LIST)
     get_filename_component(TARGET "${SRC}" NAME_WE)
 
+
     add_test (NAME "pytest::${TARGET}"
-        COMMAND ${Python3_EXECUTABLE} -m pytest "tests/${SRC}"
+        COMMAND ${Python3_EXECUTABLE} -m pytest --mypy "${CMAKE_CURRENT_SOURCE_DIR}/${SRC}"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
 
