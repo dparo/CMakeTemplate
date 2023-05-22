@@ -44,6 +44,9 @@ add_custom_target("mypy-src" ALL
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
+set_target_properties("mypy-src" PROPERTIES
+    ENVIRONMENT "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH};MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")
+
 # generate version.c
 configure_file("version.c.in" "${CMAKE_CURRENT_BINARY_DIR}/version.c" @ONLY)
 doxygen_add_docs(docs "${CMAKE_SOURCE_DIR}/src/"
