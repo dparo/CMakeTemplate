@@ -5,4 +5,4 @@
 WarningsAsErrors: ""
 HeaderFilterRegex: ""
 FormatStyle: none
-Checks: "-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-cplusplus-*,cppcoreguidelines-*,bugprone-*,concurrency-*,performance-*,portability-*,readability-*"
+Checks: "-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-cplusplus-*,cppcoreguidelines-*,bugprone-*,concurrency-*,performance-*,portability-*,readability-*,misc-*"
