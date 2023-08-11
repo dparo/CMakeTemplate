@@ -5,6 +5,7 @@
 #pragma once
 
 #include "builtins.h"
+#include "log.h"
 #if __cplusplus
 extern "C" {
 #endif
@@ -22,11 +23,14 @@ extern "C" {
 typedef struct {
     const int32_t len;
     const int32_t cap;
-    const char *buf;
+    cstr_t buf;
 } Utf8Str32_t;
 
 #define UTF8STR32(cstr) __utf8str32_from_literal(cstr, strlen(cstr))
 #define UTF8STR32_LIT(literal) __utf8str32_from_literal(literal, STRLIT_LEN(literal))
+
+BUILTIN_ALWAYS_INLINE
+static int32_t utf8str32_len(const Utf8Str32_t str) { return str.len; }
 
 BUILTIN_ALWAYS_INLINE
 static bool utf8str32_contains_cstr(const Utf8Str32_t str) {
@@ -34,7 +38,7 @@ static bool utf8str32_contains_cstr(const Utf8Str32_t str) {
 }
 
 BUILTIN_ALWAYS_INLINE
-static Utf8Str32_t __utf8str32_from_literal(char *cstr, size_t len) {
+static Utf8Str32_t __utf8str32_from_literal(cstr_t cstr, size_t len) {
     const Utf8Str32_t result = {
         .len = (int32_t)len,
         .cap = (int32_t)len + 1,
@@ -48,9 +52,19 @@ static Utf8Str32_t utf8str32_slice(const Utf8Str32_t str, int32_t beg, int32_t e
     ASSERT_POS(beg);
     ASSERT_POS(end);
 
+    beg = MIN(0, beg);
+    end = MIN(str.len, end);
+
+    int32_t delta = MIN(0, end - beg);
+    ASSERT_POS(delta);
+
+    int32_t newlen = delta;
+    // Try to preserve zero terminated strings if possible
+    int32_t newcap = utf8str32_contains_cstr(str) && (end == str.len) ? newlen + 1 : newlen;
+
     const Utf8Str32_t result = {
-        .len = end - beg,
-        .cap = end - beg,
+        .len = newlen,
+        .cap = newcap,
         .buf = str.buf + beg,
     };
 
@@ -58,21 +72,28 @@ static Utf8Str32_t utf8str32_slice(const Utf8Str32_t str, int32_t beg, int32_t e
 }
 
 BUILTIN_ALWAYS_INLINE
-static const char* utf8str32_to_cstr(const Utf8Str32_t str) {
+static cstr_t utf8str32_to_cstr(const Utf8Str32_t str) {
     assert(utf8str32_contains_cstr(str));
     return str.buf;
 }
 
 BUILTIN_ALWAYS_INLINE
-static const char* utf8str32_to_cstr_s(const Utf8Str32_t str, MAllocator *allocator) {
+static cstr_t utf8str32_to_cstr_s(MAllocator *allocator, const Utf8Str32_t str) {
     if (utf8str32_contains_cstr(str)) {
         return utf8str32_to_cstr(str);
     } else {
-        const size_t bufsize = (size_t) str.len + 1;
-        char *cstr = M_ALLOC(allocator, bufsize);
+        const size_t bufsize = (size_t)str.len + 1;
+        mutcstr_t cstr = M_ALLOC(allocator, bufsize);
         memcpy(cstr, str.buf, bufsize);
         return cstr;
     }
+}
+
+BUILTIN_ALWAYS_INLINE
+static cstr_t utf8str32_slice_cstr(MAllocator *allocator, const Utf8Str32_t str, int32_t beg,
+                                   int32_t end) {
+    const Utf8Str32_t sliced = utf8str32_slice(str, beg, end);
+    return utf8str32_to_cstr_s(allocator, sliced);
 }
 
 #if __cplusplus

@@ -15,6 +15,8 @@
 #if __cplusplus
 extern "C" {
 #endif
+typedef char *mutcstr_t;
+typedef char const *cstr_t;
 
 typedef uintptr_t ptr_t;
 typedef uint8_t byte_t;
@@ -28,9 +30,8 @@ typedef uint32_t u32_t;
 typedef int64_t i64_t;
 typedef uint64_t u64_t;
 
-#define PTR(p) ((uintptr_t) (p))
-#define UINTPTR(p) ((uintptr_t) (p))
-
+#define PTR(p) ((uintptr_t)(p))
+#define UINTPTR(p) ((uintptr_t)(p))
 
 #if __cplusplus
 }
