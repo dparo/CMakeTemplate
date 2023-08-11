@@ -26,10 +26,12 @@ foreach(SRC IN LISTS TEST_SOURCES_LIST)
 
     # Conditionally enable Code Coverage under GNU/Linux only
     if(CODE_COVERAGE
-       AND UNIX
-       AND (NOT APPLE))
-        target_compile_options("${TARGET}" PRIVATE -fprofile-arcs
-                                                   -ftest-coverage)
+        AND UNIX
+        AND NOT APPLE)
+        target_compile_options(
+            "${TARGET}"
+            PRIVATE -fprofile-arcs -ftest-coverage
+        )
         target_link_options("${TARGET}" PRIVATE -fprofile-arcs)
     endif()
 
@@ -39,18 +41,28 @@ foreach(SRC IN LISTS TEST_SOURCES_LIST)
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 endforeach()
 
-
-execute_process (COMMAND "${Python3_EXECUTABLE}" -m pip install -r "${CMAKE_SOURCE_DIR}/requirements.txt")
+execute_process(
+    COMMAND
+    "${PYTHON3_EXECUTABLE}" -m
+    pip install -r "${CMAKE_SOURCE_DIR}/requirements.txt"
+)
 
 foreach(SRC IN LISTS TEST_PYTHON_LIST)
     get_filename_component(TARGET "${SRC}" NAME_WE)
 
-
-    add_test (NAME "pytest::${TARGET}"
-        COMMAND ${Python3_EXECUTABLE} -m pytest --mypy "${CMAKE_CURRENT_SOURCE_DIR}/${SRC}"
+    add_test(
+        NAME "pytest::${TARGET}"
+        COMMAND
+        ${Python3_EXECUTABLE} -m
+        pytest --mypy "${CMAKE_CURRENT_SOURCE_DIR}/${SRC}"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
 
-    set_tests_properties("pytest::${TARGET}" PROPERTIES
-        ENVIRONMENT "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH};MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")
+    set_tests_properties(
+        "pytest::${TARGET}"
+        PROPERTIES
+        ENVIRONMENT
+        "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH};\
+        MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH};"
+    )
 endforeach()
