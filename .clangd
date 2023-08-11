@@ -10,8 +10,9 @@ CompileFlags:
     - -Wunreachable-code
     - -Wunreachable-code-aggressive
 
-FullyQualifiedNamespaces:
-  - std
+Style:
+    FullyQualifiedNamespaces:
+      - std
 
 InlayHints:
   Designators: true
