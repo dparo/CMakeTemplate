@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <builtins.h>
 #include <assert.h>
+#include <debugbreak.h>
 
 #if __cplusplus
 extern "C" {
@@ -74,8 +75,6 @@ extern "C" {
 #endif
 #endif
 
-
-
 #define ALIGNAS_EXPR(expr) (alignas(typeof(expr)))
 #define ALIGNOF_EXPR(expr) (alignof(typeof(expr)))
 
@@ -120,7 +119,7 @@ extern "C" {
 #define ASSERT_POW2(x) (assert(IS_POW2(x)))
 #define ASSERT_ZERO(x) (assert((x) == CAST_TYPEOF(typeof(x)) 0))
 #define ASSERT_NZERO(x) (assert((x) != (typeof(x))0))
-#define ASSERT_POS(x) (assert((x) > (typeof(x))0))
+#define ASSERT_POS(x) (assert((x) >= (typeof(x))0))
 #define ASSERT_NEG(x) (assert((x) < (typeof(x))0))
 
 #define PTR_ALIGN_UP(pointer, alignment)                                                           \
@@ -205,6 +204,21 @@ static size_t rounddown_pow2(size_t val, size_t alignment) {
 
 BUILTIN_ALWAYS_INLINE
 static bool is_pow2(size_t x) { return ((x - 1) & x) == 0; }
+
+#if defined __GNUC__ || defined __GNUG__ || defined __clang__
+#define ARRAY_LEN(arr)                                                                             \
+    (sizeof(arr) / sizeof((arr)[0]) +                                                              \
+     sizeof(typeof(int[1 - 2 * !!__builtin_types_compatible_p(typeof(arr), typeof(&(arr)[0]))])) * \
+         0)
+#else
+#define ARRAY_LEN(A)                                                                               \
+    ((sizeof(A) / sizeof((A)[0])) /                                                                \
+     ((size_t) !(sizeof(A) % sizeof((A)[0])))) /* Make sure that the sizeof(A) is a multiple of    \
+                                                  sizeof(A[0]), if this does not hold divide by    \
+                                                  zero to trigger a warning */
+#endif
+
+#define STRLIT_LEN(cstr_literal) (ARRAY_LEN(cstr_literal) - 1)
 
 #if __cplusplus
 }

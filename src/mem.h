@@ -11,15 +11,15 @@ extern "C" {
 #include <stdint.h>
 #include <stddef.h>
 
-typedef struct MAllocatorVTable {
-    void *(*alloc)(struct MAllocatorVTable *self, size_t size);
-    void *(*realloc)(struct MAllocatorVTable *self, void *prev, size_t *new_size);
-    void *(*realloc_sized)(struct MAllocatorVTable *self, void *prev, size_t *prev_size,
+typedef struct MAllocator {
+    void *(*alloc)(struct MAllocator *self, size_t size);
+    void *(*realloc)(struct MAllocator *self, void *prev, size_t *new_size);
+    void *(*realloc_sized)(struct MAllocator *self, void *prev, size_t *prev_size,
                            size_t *new_size);
-    void (*free)(struct MAllocatorVTable *self, void *ptr);
-    void (*free_sized)(struct MAllocatorVTable *self, void *ptr, size_t size);
-    void (*clear)(struct MAllocatorVTable *self);
-} MAllocatorVTable;
+    void (*free)(struct MAllocator *self, void *ptr);
+    void (*free_sized)(struct MAllocator *self, void *ptr, size_t size);
+    void (*clear)(struct MAllocator *self);
+} MAllocator;
 
 // TODO(d.paro): Provide alignment parames:
 //       Take inspiration from: https://github.com/ziglang/zig/blob/master/lib/std/mem/Allocator.zig
