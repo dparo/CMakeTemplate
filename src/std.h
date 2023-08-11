@@ -44,7 +44,6 @@ extern "C" {
 #define PTRCAST_TYPEOF(t) PTRCAST_VOIDSTAR
 #endif
 
-
 #define CAST_TYPEOF_EXPR(t, expr) (CAST_TYPEOF(t)(expr))
 #define PTRCAST_TYPEOF_EXPR(t, expr) (PTRCAST_TYPEOF(t)(expr))
 
@@ -74,6 +73,7 @@ extern "C" {
 #endif
 #endif
 #endif
+
 
 
 #define ALIGNAS_EXPR(expr) (alignas(typeof(expr)))
@@ -118,7 +118,7 @@ extern "C" {
     })
 
 #define ASSERT_POW2(x) (assert(IS_POW2(x)))
-#define ASSERT_ZERO(x) (assert((x) == CAST_TYPEOF(typeof(x))0))
+#define ASSERT_ZERO(x) (assert((x) == CAST_TYPEOF(typeof(x)) 0))
 #define ASSERT_NZERO(x) (assert((x) != (typeof(x))0))
 #define ASSERT_POS(x) (assert((x) > (typeof(x))0))
 #define ASSERT_NEG(x) (assert((x) < (typeof(x))0))
@@ -127,18 +127,18 @@ extern "C" {
     ({                                                                                             \
         auto _p = PTRCAST_UINTPTR_EXPR(pointer);                                                   \
         auto _a = MAX((size_t)(alignment), 1U);                                                    \
-        (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_a))                                            \
-            ? PTRCAST_TYPEOF_EXPR(pointer, (_p + _a - 1) & ~(_a - 1))                                  \
-            : PTRCAST_TYPEOF_EXPR(pointer, (_p + _a - 1) / _a * _a);                                   \
+        PTRCAST_TYPEOF_EXPR(pointer, (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_a))               \
+                                         ? (_p + _a - 1) & ~(_a - 1)                               \
+                                         : (_p + _a - 1) / _a * _a);                               \
     })
 
 #define PTR_ALIGN_DOWN(pointer, alignment)                                                         \
     ({                                                                                             \
         auto _p = PTRCAST_UINTPTR_EXPR(pointer);                                                   \
         auto _a = MAX((size_t)(alignment), 1U);                                                    \
-        (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_a))                                            \
-            ? PTRCAST_TYPEOF_EXPR(pointer, _p & ~(_a - 1))                                             \
-            : PTRCAST_TYPEOF_EXPR(pointer, (_p / _a) * _a);                                            \
+        PTRCAST_TYPEOF_EXPR(pointer, (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_a))               \
+                                         ? _p & ~(_a - 1)                                          \
+                                         : (_p / _a) * _a);                                        \
     })
 
 #define PTR_ALIGN_UP_T(ptr) (PTR_ALIGN_UP((ptr), ALIGNOF_EXPR(*(ptr))))
