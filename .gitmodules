@@ -20,3 +20,6 @@
 [submodule "deps/libuv"]
 	path = deps/libuv
 	url = https://github.com/libuv/libuv
+[submodule "deps/hedley"]
+	path = deps/hedley
+	url = https://github.com/nemequ/hedley

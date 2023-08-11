@@ -16,14 +16,19 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/.venv")
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     execute_process(
         COMMAND
-        "${PYTHON3_EXECUTABLE}" -m venv "${CMAKE_SOURCE_DIR}/.venv"
+        "${Python3_EXECUTABLE}" -m venv "${CMAKE_SOURCE_DIR}/.venv"
     )
 endif()
 
 set(ENV{VIRTUAL_ENV} "${CMAKE_SOURCE_DIR}/.venv")
-set(PYTHON3_FIND_VIRTUALENV FIRST)
-unset(PYTHON3_EXECUTABLE)
+set(Python3_FIND_VIRTUALENV FIRST)
+unset(Python3_EXECUTABLE)
 find_package(Python3 COMPONENTS Interpreter)
+
+string(JOIN ";" PYTHON_ENV_PROP
+       "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH}"
+       "MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")
+
 
 if(BUILD_DOC)
     set(DOXYGEN_GENERATE_HTML ON)

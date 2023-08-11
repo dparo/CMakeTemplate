@@ -39,13 +39,12 @@ execute_process(
     OUTPUT_VARIABLE GIT_COMMIT_SUBJECT
     ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-add_custom_target("mypy-src" ALL
+add_custom_target(
+    "mypy-src" ALL
     COMMAND ${Python3_EXECUTABLE} -m mypy "${CMAKE_CURRENT_SOURCE_DIR}/python3"
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-set_target_properties("mypy-src" PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH};MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")
+set_target_properties("mypy-src" PROPERTIES ENVIRONMENT "${PYTHON_ENV_PROP}")
 
 # generate version.c
 configure_file("version.c.in" "${CMAKE_CURRENT_BINARY_DIR}/version.c" @ONLY)
@@ -55,6 +54,7 @@ doxygen_add_docs(docs "${CMAKE_SOURCE_DIR}/src/"
 add_library(libmain sum.c)
 target_include_directories(libmain PUBLIC ./)
 target_link_libraries(libmain PUBLIC debugbreak logc)
+target_include_directories(libmain PUBLIC "${DEPS_DIR}/hedley")
 
 add_executable("${PROJECT_NAME}" main.c "${CMAKE_CURRENT_BINARY_DIR}/version.c")
 target_link_libraries("${PROJECT_NAME}" PRIVATE libmain)

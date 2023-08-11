@@ -12,6 +12,7 @@
 
 #include <log.h>
 #include <argtable3.h>
+#include <hedley.h>
 
 enum {
     MAX_NUMBER_OF_ERRORS_TO_DISPLAY = 16,
