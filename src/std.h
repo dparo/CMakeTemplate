@@ -26,6 +26,28 @@ extern "C" {
 #define typeof(x) decltype(x)
 #endif
 
+#define CAST(T, expr) ((T)(expr))
+
+#define CAST_SIZE (size_t)
+#define CAST_SIZE_EXPR(expr) ((size_t)expr)
+#define PTRCAST_UINTPTR (uintptr_t)
+#define PTRCAST_UINTPTR_EXPR(expr) ((uintptr_t)(expr))
+
+#define PTRCAST_VOIDSTAR (void *)
+#define PTRCAST_VOIDSTAR_EXPR(expr) ((void *)(expr))
+
+#ifdef typeof
+#define CAST_TYPEOF(t) (typeof(t))
+#define PTRCAST_TYPEOF(t) (typeof(t))
+#else
+#define CAST_TYPEOF(t) ? ? ? ? ? ? ? ? ? ? ? ? ?
+#define PTRCAST_TYPEOF(t) PTRCAST_VOIDSTAR
+#endif
+
+
+#define CAST_TYPEOF_EXPR(t, expr) (CAST_TYPEOF(t)(expr))
+#define PTRCAST_TYPEOF_EXPR(t, expr) (PTRCAST_TYPEOF(t)(expr))
+
 #ifndef __cplusplus
 #ifdef __GNUC__
 #define auto __auto_type
@@ -52,6 +74,10 @@ extern "C" {
 #endif
 #endif
 #endif
+
+
+#define ALIGNAS_EXPR(expr) (alignas(typeof(expr)))
+#define ALIGNOF_EXPR(expr) (alignof(typeof(expr)))
 
 #ifdef MAX
 #undef MAX
@@ -92,60 +118,60 @@ extern "C" {
     })
 
 #define ASSERT_POW2(x) (assert(IS_POW2(x)))
-#define ASSERT_ZERO(x) (assert((x) == (typeof(x))0))
+#define ASSERT_ZERO(x) (assert((x) == CAST_TYPEOF(typeof(x))0))
 #define ASSERT_NZERO(x) (assert((x) != (typeof(x))0))
 #define ASSERT_POS(x) (assert((x) > (typeof(x))0))
 #define ASSERT_NEG(x) (assert((x) < (typeof(x))0))
 
-#define PTR_ALIGN_UP(ptr, alignment)                                                               \
+#define PTR_ALIGN_UP(pointer, alignment)                                                           \
     ({                                                                                             \
-        auto _ptr = (ptr);                                                                         \
-        auto _alignment = MAX((size_t)(alignment), 1U);                                            \
-        (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_alignment))                                    \
-            ? (typeof(_ptr))((((ptr_t)_ptr + _alignment - 1)) & ~(_alignment - 1))                 \
-            : (typeof(_ptr))(((ptr_t)_ptr + (size_t)_alignment - 1) / _alignment * _alignment);    \
+        auto _p = PTRCAST_UINTPTR_EXPR(pointer);                                                   \
+        auto _a = MAX((size_t)(alignment), 1U);                                                    \
+        (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_a))                                            \
+            ? PTRCAST_TYPEOF_EXPR(pointer, (_p + _a - 1) & ~(_a - 1))                                  \
+            : PTRCAST_TYPEOF_EXPR(pointer, (_p + _a - 1) / _a * _a);                                   \
     })
 
-#define PTR_ALIGN_DOWN(ptr, alignment)                                                             \
+#define PTR_ALIGN_DOWN(pointer, alignment)                                                         \
     ({                                                                                             \
-        auto _ptr = (ptr);                                                                         \
-        auto _alignment = MAX((size_t)(alignment), 1U);                                            \
-        (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_alignment))                                    \
-            ? (typeof(_ptr))((ptr_t)_ptr & ~(_alignment - 1))                                      \
-            : (typeof(_ptr))(((ptr_t)_ptr / _alignment) * _alignment);                             \
+        auto _p = PTRCAST_UINTPTR_EXPR(pointer);                                                   \
+        auto _a = MAX((size_t)(alignment), 1U);                                                    \
+        (BUILTIN_IS_CONSTANT(alignment) && IS_POW2(_a))                                            \
+            ? PTRCAST_TYPEOF_EXPR(pointer, _p & ~(_a - 1))                                             \
+            : PTRCAST_TYPEOF_EXPR(pointer, (_p / _a) * _a);                                            \
     })
 
-#define PTR_ALIGN_UP_T(ptr) (PTR_ALIGN_UP((ptr), alignof(typeof((ptr)[0]))))
-#define PTR_ALIGN_DOWN_T(ptr) (PTR_ALIGN_DOWN((ptr), alignof(typeof((ptr)[0]))))
+#define PTR_ALIGN_UP_T(ptr) (PTR_ALIGN_UP((ptr), ALIGNOF_EXPR(*(ptr))))
+#define PTR_ALIGN_DOWN_T(ptr) (PTR_ALIGN_DOWN((ptr), ALIGNOF_EXPR(*(ptr))))
 
-#define PTR_IS_ALIGNED(ptr, alignment) __ptr_is_aligned(PTR(ptr), alignment)
+#define PTR_IS_ALIGNED(ptr, alignment) __ptr_is_aligned(PTRCAST_UINTPTR_EXPR(ptr), alignment)
 
 BUILTIN_ALWAYS_INLINE
-static bool __ptr_is_aligned(ptr_t ptr, size_t alignment) {
-    return PTR_ALIGN_UP(ptr, alignment) == ptr;
+static bool __ptr_is_aligned(uintptr_t ptr, size_t alignment) {
+    return (uintptr_t)PTR_ALIGN_UP(ptr, alignment) == ptr;
 }
 
 BUILTIN_ALWAYS_INLINE
-static ptr_t ptr_roundup(ptr_t ptr, size_t alignment) {
+static uintptr_t ptr_roundup(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     return (ptr + alignment - 1) / alignment * alignment;
 }
 
 BUILTIN_ALWAYS_INLINE
-static ptr_t ptr_roundup_pow2(ptr_t ptr, size_t alignment) {
+static uintptr_t ptr_roundup_pow2(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     ASSERT_POW2(alignment);
     return (ptr + alignment - 1) & ~(alignment - 1);
 }
 
 BUILTIN_ALWAYS_INLINE
-static ptr_t ptr_rounddown(ptr_t ptr, size_t alignment) {
+static uintptr_t ptr_rounddown(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     return ptr / alignment * alignment;
 }
 
 BUILTIN_ALWAYS_INLINE
-static ptr_t ptr_rounddown_pow2(ptr_t ptr, size_t alignment) {
+static uintptr_t ptr_rounddown_pow2(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     ASSERT_POW2(alignment);
     return ptr & ~(alignment - 1);
@@ -176,6 +202,9 @@ static size_t rounddown_pow2(size_t val, size_t alignment) {
     ASSERT_POW2(alignment);
     return val & ~(alignment - 1);
 }
+
+BUILTIN_ALWAYS_INLINE
+static bool is_pow2(size_t x) { return ((x - 1) & x) == 0; }
 
 #if __cplusplus
 }
