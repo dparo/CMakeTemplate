@@ -9,12 +9,10 @@ repos:
         - id: reuse
           name: Add SPDX headers
           args:
-              [
-                  annotate,
-                  --copyright=Davide Paro,
-                  --license=MIT,
-                  --skip-unrecognised,
-              ]
+            - annotate
+            - --copyright=Davide Paro
+            - --license=MIT
+            - --skip-unrecognised
           pass_filenames: true
         - id: reuse
           name: reuse lint
