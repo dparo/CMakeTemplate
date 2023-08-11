@@ -4,7 +4,6 @@
 
 ---
 CompileFlags:
-  CompilationDatabase: './compile_commands.json'
   Add:
     - -Wall
     - -Wextra
