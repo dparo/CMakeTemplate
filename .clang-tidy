@@ -2,4 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-Checks: "-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-cplusplus-*,cppcoreguidelines-*"
+WarningsAsErrors: ""
+HeaderFilterRegex: ""
+FormatStyle: none
+Checks: "-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-cplusplus-*,cppcoreguidelines-*,bugprone-*,concurrency-*,performance-*,portability-*,readability-*"

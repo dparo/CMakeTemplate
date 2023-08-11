@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2023 Davide Paro
+#
+# SPDX-License-Identifier: MIT
+
+---
+CompileFlags:
+  CompilationDatabase: './compile_commands.json'
+  Add:
+    - -Wall
+    - -Wextra
+    - -Wunreachable-code
+    - -Wunreachable-code-aggressive
+
+FullyQualifiedNamespaces:
+  - std
+
+InlayHints:
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+
+
+Diagnostics:
+    UnusedIncludes: Strict
