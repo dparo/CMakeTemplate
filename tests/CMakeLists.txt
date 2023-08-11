@@ -58,11 +58,16 @@ foreach(SRC IN LISTS TEST_PYTHON_LIST)
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
 
+    string(
+        JOIN ";"
+        ENV_PROP
+        "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH}"
+        "MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}"
+    )
+
     set_tests_properties(
         "pytest::${TARGET}"
         PROPERTIES
-        ENVIRONMENT
-        "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH};\
-        MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH};"
+        ENVIRONMENT "${ENV_PROP}"
     )
 endforeach()
