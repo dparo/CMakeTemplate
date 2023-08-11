@@ -30,6 +30,9 @@ typedef uint32_t u32_t;
 typedef int64_t i64_t;
 typedef uint64_t u64_t;
 
+typedef float f32_t;
+typedef double f64_t;
+
 #define PTR(p) ((uintptr_t)(p))
 #define UINTPTR(p) ((uintptr_t)(p))
 
