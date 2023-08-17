@@ -29,15 +29,15 @@ typedef struct {
 #define UTF8STR32(cstr) __utf8str32_from_literal(cstr, strlen(cstr))
 #define UTF8STR32_LIT(literal) __utf8str32_from_literal(literal, STRLIT_LEN(literal))
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static int32_t utf8str32_len(const Utf8Str32_t str) { return str.len; }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static bool utf8str32_contains_cstr(const Utf8Str32_t str) {
     return str.cap == str.len + 1 && str.buf[str.len] == '\0';
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static Utf8Str32_t __utf8str32_from_literal(cstr_t cstr, size_t len) {
     const Utf8Str32_t result = {
         .len = (int32_t)len,
@@ -47,7 +47,7 @@ static Utf8Str32_t __utf8str32_from_literal(cstr_t cstr, size_t len) {
     return result;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static Utf8Str32_t utf8str32_slice(const Utf8Str32_t str, int32_t beg, int32_t end) {
     ASSERT_POS(beg);
     ASSERT_POS(end);
@@ -71,13 +71,13 @@ static Utf8Str32_t utf8str32_slice(const Utf8Str32_t str, int32_t beg, int32_t e
     return result;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static cstr_t utf8str32_to_cstr(const Utf8Str32_t str) {
     assert(utf8str32_contains_cstr(str));
     return str.buf;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static cstr_t utf8str32_to_cstr_s(MAllocator *allocator, const Utf8Str32_t str) {
     if (utf8str32_contains_cstr(str)) {
         return utf8str32_to_cstr(str);
@@ -89,7 +89,7 @@ static cstr_t utf8str32_to_cstr_s(MAllocator *allocator, const Utf8Str32_t str) 
     }
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static cstr_t utf8str32_slice_cstr(MAllocator *allocator, const Utf8Str32_t str, int32_t beg,
                                    int32_t end) {
     const Utf8Str32_t sliced = utf8str32_slice(str, beg, end);

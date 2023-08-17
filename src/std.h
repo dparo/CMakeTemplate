@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <debugbreak.h>
 
+#define STRINGIFY(X) #X
+
 #if __cplusplus
 extern "C" {
 #endif
@@ -30,7 +32,7 @@ extern "C" {
 #define CAST(T, expr) ((T)(expr))
 
 #define CAST_SIZE (size_t)
-#define CAST_SIZE_EXPR(expr) ((size_t)expr)
+#define CAST_SIZE_EXPR(expr) ((size_t)(expr))
 #define PTRCAST_UINTPTR (uintptr_t)
 #define PTRCAST_UINTPTR_EXPR(expr) ((uintptr_t)(expr))
 
@@ -67,7 +69,7 @@ extern "C" {
 #else
 #ifdef __GNUC__
 #define alignof(x) (__alignof__(x))
-#define alignas(x) __attribute__((aligned(x)))
+#define alignas(x) __attribute__((__aligned__(x)))
 #else
 #include <stdalign.h>
 #endif
@@ -145,64 +147,64 @@ extern "C" {
 
 #define PTR_IS_ALIGNED(ptr, alignment) __ptr_is_aligned(PTRCAST_UINTPTR_EXPR(ptr), alignment)
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static bool __ptr_is_aligned(uintptr_t ptr, size_t alignment) {
     return (uintptr_t)PTR_ALIGN_UP(ptr, alignment) == ptr;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static uintptr_t ptr_roundup(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     return (ptr + alignment - 1) / alignment * alignment;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static uintptr_t ptr_roundup_pow2(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     ASSERT_POW2(alignment);
     return (ptr + alignment - 1) & ~(alignment - 1);
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static uintptr_t ptr_rounddown(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     return ptr / alignment * alignment;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static uintptr_t ptr_rounddown_pow2(uintptr_t ptr, size_t alignment) {
     alignment = MAX(1U, alignment);
     ASSERT_POW2(alignment);
     return ptr & ~(alignment - 1);
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static size_t roundup(size_t val, size_t alignment) {
     alignment = MAX(1U, alignment);
     return (val + alignment - 1) / alignment * alignment;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static size_t roundup_pow2(size_t val, size_t alignment) {
     alignment = MAX(1U, alignment);
     ASSERT_POW2(alignment);
     return (val + alignment - 1) & ~(alignment - 1);
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static size_t rounddown(size_t val, size_t alignment) {
     alignment = MAX(1U, alignment);
     return val / alignment * alignment;
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static size_t rounddown_pow2(size_t val, size_t alignment) {
     alignment = MAX(1U, alignment);
     ASSERT_POW2(alignment);
     return val & ~(alignment - 1);
 }
 
-BUILTIN_ALWAYS_INLINE
+ATTRIB_ALWAYS_INLINE
 static bool is_pow2(size_t x) { return ((x - 1) & x) == 0; }
 
 #if defined __GNUC__ || defined __GNUG__ || defined __clang__

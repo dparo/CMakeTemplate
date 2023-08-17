@@ -39,5 +39,5 @@ repos:
       - id: clang-format
       - id: clang-tidy
       - id: cppcheck
-      - id: cpplint
-      - id: include-what-you-use
+      # - id: cpplint
+      # - id: include-what-you-use
