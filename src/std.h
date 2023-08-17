@@ -145,10 +145,10 @@ extern "C" {
 #define PTR_ALIGN_UP_T(ptr) (PTR_ALIGN_UP((ptr), ALIGNOF_EXPR(*(ptr))))
 #define PTR_ALIGN_DOWN_T(ptr) (PTR_ALIGN_DOWN((ptr), ALIGNOF_EXPR(*(ptr))))
 
-#define PTR_IS_ALIGNED(ptr, alignment) __ptr_is_aligned(PTRCAST_UINTPTR_EXPR(ptr), alignment)
+#define PTR_IS_ALIGNED(ptr, alignment) _ptr_is_aligned(PTRCAST_UINTPTR_EXPR(ptr), alignment)
 
 ATTRIB_ALWAYS_INLINE
-static bool __ptr_is_aligned(uintptr_t ptr, size_t alignment) {
+static bool _ptr_is_aligned(uintptr_t ptr, size_t alignment) {
     return (uintptr_t)PTR_ALIGN_UP(ptr, alignment) == ptr;
 }
 

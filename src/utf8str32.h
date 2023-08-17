@@ -5,7 +5,7 @@
 #pragma once
 
 #include "builtins.h"
-#include "log.h"
+
 #if __cplusplus
 extern "C" {
 #endif
@@ -26,8 +26,8 @@ typedef struct {
     cstr_t buf;
 } Utf8Str32_t;
 
-#define UTF8STR32(cstr) __utf8str32_from_literal(cstr, strlen(cstr))
-#define UTF8STR32_LIT(literal) __utf8str32_from_literal(literal, STRLIT_LEN(literal))
+#define UTF8STR32(cstr) _utf8str32_from_literal(cstr, strlen(cstr))
+#define UTF8STR32_LIT(literal) _utf8str32_from_literal(literal, STRLIT_LEN(literal))
 
 ATTRIB_ALWAYS_INLINE
 static int32_t utf8str32_len(const Utf8Str32_t str) { return str.len; }
@@ -38,7 +38,7 @@ static bool utf8str32_contains_cstr(const Utf8Str32_t str) {
 }
 
 ATTRIB_ALWAYS_INLINE
-static Utf8Str32_t __utf8str32_from_literal(cstr_t cstr, size_t len) {
+static Utf8Str32_t _utf8str32_from_literal(cstr_t cstr, size_t len) {
     const Utf8Str32_t result = {
         .len = (int32_t)len,
         .cap = (int32_t)len + 1,
