@@ -46,9 +46,19 @@ typedef struct stack_header {
 #define STACK_NTH(stack, n)                                                                        \
     ({                                                                                             \
         auto _stack = (stack);                                                                     \
-        auto _n = (n);                                                                             \
+        int32_t _n = (n);                                                                          \
         stack_header_t _hdr = _stack.hdr;                                                          \
-        assert(_n < _hdr.len);                                                                     \
+        assert(_n > 0 && _n < _hdr.len);                                                           \
+        _stack.inner[_n];                                                                          \
+    })
+
+#define STACK_NTH_REL(stack, offset)                                                               \
+    ({                                                                                             \
+        auto _stack = (stack);                                                                     \
+        int32_t _offset = (offset);                                                                \
+        stack_header_t _hdr = _stack.hdr;                                                          \
+        int32_t _n = _stack.hdr.len + _offset;                                                     \
+        assert(_n > 0 && _n < _hdr.len);                                                           \
         _stack.inner[_n];                                                                          \
     })
 
