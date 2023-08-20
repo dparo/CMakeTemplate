@@ -22,6 +22,11 @@
 #define ATTRIB_CONST HEDLEY_CONST
 
 #ifdef __GNUC__
+#define ATTRIB_ASSUME_ALIGNED(...) __attribute__((__assume_aligned__(__VA_ARGS__)))
+#else
+#endif
+
+#ifdef __GNUC__
 #define ATTRIB_WEAK __attribute__((__weak__))
 #define ATTRIB_WEAK_ALIAS(alias) __attribute__((__weak__, __alias__(alias)))
 #else
