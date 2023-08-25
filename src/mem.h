@@ -10,6 +10,11 @@ extern "C" {
 
 #include <stdint.h>
 #include <stddef.h>
+#include "builtins.h"
+
+extern void *memcpy(void *restrict __dest, const void *restrict __src, size_t __n)
+    ATTRIB_NO_THROW()
+    ATTRIB_NON_NULL(1, 2);
 
 typedef struct MAllocator {
     void *(*alloc)(struct MAllocator *self, size_t size);
@@ -32,6 +37,9 @@ typedef struct MAllocator {
 #define M_REALLOC_ARRAY(allocator, ptr, T, nmemb)                                                  \
     ((T *)((allocator)->realloc((allocator), ptr, sizeof(T) * (nmemb))))
 #define M_REALLOC_T(allocator, ptr, T) M_REALLOC_ARRAY((allocator), ptr, T, 1)
+
+// TODO: Better MDUP: memcpy may copy to NULL pointer in case of M_ALLOC failure
+#define MDUP(allocator, ptr, size) (memcpy(M_ALLOC(allocator, size), ptr))
 
 #define M_REALLOC_SIZED(allocator, ptr, prev_size, new_size)                                       \
     (allocator)->realloc_sized((allocator), (ptr), (prev_size), (new_size))

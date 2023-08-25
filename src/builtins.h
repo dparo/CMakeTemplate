@@ -43,7 +43,7 @@
 #endif
 
 #ifndef __cplusplus
-#define ATTRIB_NO_THROW(...) HEDLEY_NO_THROW(__VA_ARGS__)
+#define ATTRIB_NO_THROW(...) HEDLEY_NO_THROW
 #else
 #define ATTRIB_NO_THROW(...) noexcept(__VA_ARGS__)
 #endif
