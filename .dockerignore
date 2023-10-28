@@ -3,9 +3,17 @@
 # SPDX-License-Identifier: MIT
 
 /.git
+/Dockerfile
+docker/
+
+/dist
+/build
+/target
+/tmp
+/coverage
+
 node_modules
-/node_modules
-/cache
+cache
 
 .gdb_history
 .log
