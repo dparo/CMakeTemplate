@@ -85,6 +85,7 @@ static cstr_t utf8str32_to_cstr_s(MAllocator *allocator, const Utf8Str32_t str) 
         const size_t bufsize = (size_t)str.len + 1;
         mutcstr_t cstr = M_ALLOC(allocator, bufsize);
         memcpy(cstr, str.buf, bufsize);
+        cstr[str.len] = '\0';
         return cstr;
     }
 }
