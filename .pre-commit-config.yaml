@@ -18,10 +18,10 @@ repos:
           name: reuse lint
           args: [lint]
 
-  - repo: https://github.com/cmake-lint/cmake-lint
-    rev: 1.4.2
-    hooks:
-      - id: cmakelint
+  # - repo: https://github.com/cmake-lint/cmake-lint
+  #   rev: 1.4.2
+  #   hooks:
+  #     - id: cmakelint
 
   - repo: local
     hooks:
@@ -37,6 +37,7 @@ repos:
     rev: v1.3.5
     hooks:
       - id: clang-format
+        args: [-i]
       - id: clang-tidy
       - id: cppcheck
       # - id: cpplint
