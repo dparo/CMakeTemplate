@@ -17,6 +17,7 @@ if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 endif()
 
 find_package(Git REQUIRED)
+find_package(CURL REQUIRED)     # HINTS CURL_USE_STATIC_LIBS
 
 execute_process(
     COMMAND "${GIT_EXECUTABLE}" describe --match=NeVeRmAtCh --always --abbrev=40
@@ -53,8 +54,8 @@ doxygen_add_docs(docs "${CMAKE_SOURCE_DIR}/src/"
 
 add_library(libmain sum.c)
 target_include_directories(libmain PUBLIC ./)
-target_link_libraries(libmain PUBLIC debugbreak logc)
-target_include_directories(libmain PUBLIC "${DEPS_DIR}/hedley")
+target_link_libraries(libmain PUBLIC debugbreak logc "${CURL_LIBRARIES}")
+target_include_directories(libmain PUBLIC "${DEPS_DIR}/hedley" "${CURL_INCLUDE_DIRS}")
 
 add_executable("${PROJECT_NAME}" main.c "${CMAKE_CURRENT_BINARY_DIR}/version.c")
 target_link_libraries("${PROJECT_NAME}" PRIVATE libmain)

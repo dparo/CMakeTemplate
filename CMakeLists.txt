@@ -25,6 +25,8 @@ set(Python3_FIND_VIRTUALENV FIRST)
 unset(Python3_EXECUTABLE)
 find_package(Python3 3.12 REQUIRED COMPONENTS Interpreter)
 
+find_program(CURL_EXE NAMES curl REQUIRED)
+
 string(JOIN ";" PYTHON_ENV_PROP
        "PYTHONPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{PYTHONPATH}"
        "MYPYPATH=${CMAKE_SOURCE_DIR}/src/python3:$ENV{MYPYPATH}")

@@ -32,7 +32,8 @@ set(BUILD_EXAMPLES
 include(FetchContent)
 include(ExternalProject)
 find_package(Git REQUIRED)
-find_program(MAKE_EXE NAMES gmake nmake make)
+find_program(MAKE_EXE NAMES gmake nmake make REQUIRED)
+
 
 # Define custom Fetch function for submodules. If classical CMAKE
 # FetchContent_Declare is used to download git submodules, it will without
