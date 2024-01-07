@@ -15,44 +15,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-
-typedef struct html_attrs {
-    char *class;
-    char *style;
-} html_attrs_t;
-
-void begin_div(const html_attrs_t *attrs) {
-    printf("<div ");
-    if (attrs) {
-        if (attrs->class) {
-            printf("class=\"%s\"", attrs->class);
-        }
-        if (attrs->style) {
-            printf("style=\"%s\"", attrs->style);
-        }
-    }
-    printf(">");
-}
-
-void end_div() { printf("</div>\n"); }
-
-int end_conditional() {
-    printf("END conditional\n");
-    return 0;
-}
-
-#define HTML_BLOCK(attrs, beg, end)                                                                \
-    { beg(&(html_attrs_t)attrs); }                                                                 \
-    for (int32_t _block_inner_cnt = 0; !_block_inner_cnt; _block_inner_cnt = 1, end())
-
-#define DIV(attrs) HTML_BLOCK(attrs, begin_div, end_div)
-
-static inline void example() {
-    DIV({.class = "foo"}) {
-        DIV({}) { printf("Hello world\n"); }
-    }
-}
-//////////////////////////
+#include "std.h"
 
 #define HTML_ATTRIB_KEY_MAX_SIZE 32
 #define HTML_MAX_NUM_ATTRS 64
@@ -108,6 +71,83 @@ void html_push_attr(HtmlElem *elem, const char *key, const char *value) {
     strcpy(&elem->attrs.val_buf[new_offset], value);
     // Update number of keys
     ++elem->attrs.num_keys;
+}
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#define HTML_RENDERER_MAX_DEPTH 128
+#define HTML_RENDERER_MAX_TAG_LEN 63
+typedef struct HtmlRenderer {
+    FILE *fstream;
+    int32_t depth;
+    char stack[HTML_RENDERER_MAX_DEPTH][HTML_RENDERER_MAX_TAG_LEN + 1];
+} HtmlRenderer;
+
+typedef struct HtmlAttrib {
+    char *key;
+    char *value;
+} HtmlAttrib;
+
+static void render_html_begin(HtmlRenderer *const r, const char *tag, size_t num_attribs,
+                              const HtmlAttrib attribs[]) {
+    if (r->depth >= HTML_RENDERER_MAX_DEPTH || strlen(tag) >= HTML_RENDERER_MAX_TAG_LEN) {
+        return;
+    }
+
+    strncpy(r->stack[r->depth], tag, HTML_RENDERER_MAX_TAG_LEN + 1);
+    ++r->depth;
+
+    // TODO: Escaping
+    fprintf(r->fstream, "<%s ", tag);
+
+    for (size_t i = 0; i < num_attribs /* attribs[i].key */; i++) {
+        char *key = attribs[i].key;
+        char *value = attribs[i].value;
+
+        if (key && value) {
+            // TODO: Escaping
+            fprintf(r->fstream, "%s=\"%s\" ", key, value);
+        }
+    }
+
+    fprintf(r->fstream, ">");
+}
+
+static void render_html_end(HtmlRenderer *const r) {
+    if (r->depth <= 0) {
+        return;
+    }
+
+    --r->depth;
+
+    // TODO: Escaping
+    fprintf(r->fstream, "</%s>", r->stack[r->depth]);
+}
+
+#define HTML_ELEM(r, tag, ...)                                                                     \
+    {                                                                                              \
+        render_html_begin(r, tag, ARRAY_LEN(((HtmlAttrib[]){__VA_ARGS__})),                        \
+                          (HtmlAttrib[]){__VA_ARGS__, {NULL, NULL}});                              \
+    }                                                                                              \
+    for (int _block_inner_cnt = 0; !_block_inner_cnt; _block_inner_cnt = 1, render_html_end(r))
+
+#define DIV(r, ...) HTML_ELEM(r, "div", __VA_ARGS__)
+
+static int test_html_div_render() {
+    HtmlRenderer r = {0};
+    r.fstream = stdout;
+
+    DIV(&r, {"id", "1"}, {"foo", "bar"}) {
+        DIV(&r, {"id", "2"}, {"foo", "bar"}) {
+            DIV(&r, {"id", "3"}, {"foo", "bar"}) {}
+        }
+        DIV(&r, {"id", "4"}, {"foo", "bar"}) {}
+    }
+
+    printf("\n");
+
+    return 0;
 }
 
 #if __cplusplus
