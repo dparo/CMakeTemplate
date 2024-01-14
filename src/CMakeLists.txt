@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2023 Davide Paro
+# SPDX-FileCopyrightText: 2024 Davide Paro
 #
 # SPDX-License-Identifier: MIT
 
@@ -52,7 +53,7 @@ configure_file("version.c.in" "${CMAKE_CURRENT_BINARY_DIR}/version.c" @ONLY)
 doxygen_add_docs(docs "${CMAKE_SOURCE_DIR}/src/"
                  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
-add_library(libmain sum.c)
+add_library(libmain sum.c html5.c)
 target_include_directories(libmain PUBLIC ./)
 target_link_libraries(libmain PUBLIC debugbreak logc "${CURL_LIBRARIES}")
 target_include_directories(libmain PUBLIC "${DEPS_DIR}/hedley" "${CURL_INCLUDE_DIRS}")

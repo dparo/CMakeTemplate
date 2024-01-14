@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Davide Paro
+// SPDX-FileCopyrightText: 2024 Davide Paro
 //
 // SPDX-License-Identifier: MIT
 
@@ -46,7 +47,7 @@ typedef struct HtmlDoc {
     HtmlElem *root;
 } HtmlDoc;
 
-void html_push_attr(HtmlElem *elem, const char *key, const char *value) {
+static void html_push_attr(HtmlElem *elem, const char *key, const char *value) {
     // Check boundaries for key
     if (elem->attrs.num_keys >= HTML_MAX_NUM_ATTRS || strlen(key) >= HTML_ATTRIB_KEY_MAX_SIZE) {
         // TODO
@@ -89,66 +90,23 @@ typedef struct HtmlAttrib {
     char *value;
 } HtmlAttrib;
 
-static void render_html_begin(HtmlRenderer *const r, const char *tag, size_t num_attribs,
-                              const HtmlAttrib attribs[]) {
-    if (r->depth >= HTML_RENDERER_MAX_DEPTH || strlen(tag) >= HTML_RENDERER_MAX_TAG_LEN) {
-        return;
-    }
-
-    strncpy(r->stack[r->depth], tag, HTML_RENDERER_MAX_TAG_LEN + 1);
-    ++r->depth;
-
-    // TODO: Escaping
-    fprintf(r->fstream, "<%s ", tag);
-
-    for (size_t i = 0; i < num_attribs /* attribs[i].key */; i++) {
-        char *key = attribs[i].key;
-        char *value = attribs[i].value;
-
-        if (key && value) {
-            // TODO: Escaping
-            fprintf(r->fstream, "%s=\"%s\" ", key, value);
-        }
-    }
-
-    fprintf(r->fstream, ">");
-}
-
-static void render_html_end(HtmlRenderer *const r) {
-    if (r->depth <= 0) {
-        return;
-    }
-
-    --r->depth;
-
-    // TODO: Escaping
-    fprintf(r->fstream, "</%s>", r->stack[r->depth]);
-}
+void html5_render_escaped(FILE *fstream, const char *string);
+int html5_render_begin(HtmlRenderer *const r, const char *tag, size_t num_attribs,
+                       const HtmlAttrib *attribs);
+void html5_render_end(HtmlRenderer *const r);
 
 #define HTML_ELEM(r, tag, ...)                                                                     \
-    {                                                                                              \
-        render_html_begin(r, tag, ARRAY_LEN(((HtmlAttrib[]){__VA_ARGS__})),                        \
-                          (HtmlAttrib[]){__VA_ARGS__, {NULL, NULL}});                              \
-    }                                                                                              \
-    for (int _block_inner_cnt = 0; !_block_inner_cnt; _block_inner_cnt = 1, render_html_end(r))
+    for (int _block_inner_cnt = 0,                                                                 \
+             _ = html5_render_begin(r, tag, ARRAY_LEN(((HtmlAttrib[]){__VA_ARGS__})),              \
+                                    (HtmlAttrib[]){__VA_ARGS__, {NULL, NULL}});                    \
+         !_block_inner_cnt; _block_inner_cnt = 1, html5_render_end(r))
 
 #define DIV(r, ...) HTML_ELEM(r, "div", __VA_ARGS__)
 
-static int test_html_div_render() {
-    HtmlRenderer r = {0};
-    r.fstream = stdout;
-
-    DIV(&r, {"id", "1"}, {"foo", "bar"}) {
-        DIV(&r, {"id", "2"}, {"foo", "bar"}) {
-            DIV(&r, {"id", "3"}, {"foo", "bar"}) {}
-        }
-        DIV(&r, {"id", "4"}, {"foo", "bar"}) {}
-    }
-
-    printf("\n");
-
-    return 0;
-}
+#define HTML5_RAW_STRING(r, s)                                                                     \
+    do {                                                                                           \
+        html5_render_escaped(r->fstream, s)                                                        \
+    } while (0)
 
 #if __cplusplus
 }
