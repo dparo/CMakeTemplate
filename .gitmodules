@@ -21,3 +21,6 @@
 [submodule "deps/hedley"]
 	path = deps/hedley
 	url = https://github.com/nemequ/hedley
+[submodule "deps/Unity"]
+	path = deps/Unity
+	url = https://github.com/ThrowTheSwitch/Unity
